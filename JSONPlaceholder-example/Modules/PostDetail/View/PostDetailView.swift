@@ -10,6 +10,8 @@ import SwiftUI
 struct PostDetailView: View {
     let id: Int
     
+    @StateObject var postDetailVM = PostDetailViewModel()
+    
     @State var isFavorite = false
     
     var body: some View {
@@ -26,6 +28,9 @@ struct PostDetailView: View {
             }
         }.navigationTitle("Post")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear{
+                postDetailVM.getPost(id: 1)
+            }
     }
     
     private func tapFavorite() {

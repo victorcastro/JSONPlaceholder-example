@@ -12,9 +12,18 @@ class ServiceManager {
     
     private var subscriber = Set<AnyCancellable>()
     
-    func callService<T: Decodable>(method: ApiMethod, path: ApiPath, completion: @escaping (Result<T, Error>) -> Void )  {
+    func callService<T: Decodable>(method: ApiMethod, path: ApiPath, pathId: String? = nil, completion: @escaping (Result<T, Error>) -> Void )  {
         
-        guard let url = URL(string: ApiContants.url + path.rawValue) else { return }
+        var pathRaw: String
+        
+        if let pathId = pathId {
+            pathRaw = path.rawValue.replace("{ID}", withThis: pathId)
+        } else {
+            pathRaw = path.rawValue
+        }
+
+        print(pathRaw)
+        guard let url = URL(string: ApiContants.url + pathRaw) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

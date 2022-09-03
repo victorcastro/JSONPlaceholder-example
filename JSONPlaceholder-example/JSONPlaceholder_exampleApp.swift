@@ -13,7 +13,7 @@ struct JSONPlaceholder_exampleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PostListView()
+            PostsListView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import Combine
 
 class PostListViewModel: ObservableObject {
     
     @Published var posts = [PostViewModel]()
+    
     private let apiManager = ApiManager()
     
     func fetchPosts() {

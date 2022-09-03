@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct PostListView: View {
+struct PostsListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @StateObject var postListVM = PostListViewModel()
@@ -124,6 +124,6 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PostListView()
+        PostsListView()
     }
 }
