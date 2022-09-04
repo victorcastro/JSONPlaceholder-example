@@ -75,23 +75,13 @@ struct PostsListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        vm.getPostsFromService()
+                        vm.fetchPosts()
                     }) {
                         Label("Download", systemImage: SFSymbols.icloudDown)
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) { !vm.postsCahed.isEmpty ? EditButton() : nil }
-                
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        withAnimation {
-                            vm.addPost()
-                        }
-                    }) {
-                        Label("Add", systemImage: SFSymbols.plus)
-                    }
-                }
             }
         }
     }

@@ -11,7 +11,7 @@ import CoreData
 @MainActor
 class PostListViewModel: NSObject, ObservableObject {
     
-    @Published var posts = [PostViewModel]()
+    var posts = [Post]()
     @Published var postsCahed = [PostCacheViewModel]()
     
     private let apiManager = ApiManager()
@@ -33,7 +33,7 @@ class PostListViewModel: NSObject, ObservableObject {
         apiManager.getPosts { (result: Result<[Post], Error>) in
             switch result {
             case .success(let res):
-                self.posts = res.map{ PostViewModel(post: $0) }
+                self.posts = res
                 
             case .failure(let err):
                 print(err.localizedDescription)
@@ -52,20 +52,38 @@ class PostListViewModel: NSObject, ObservableObject {
     }
     
     func fetchPosts() {
-        // TODO: Fetch all post from json to CorData
-        getPostsFromService()
+        apiManager.getPosts { (result: Result<[Post], Error>) in
+            switch result {
+            case .success(let res):
+                if res.count > 0 {
+                    for post in res {
+                        let p = CDPosts(context: self.context)
+                        p.idPost = Int64(post.id)
+                        p.idUser = Int64(post.userId)
+                        p.title = post.title
+                        p.desc = post.body
+                        do {
+                            try p.save()
+                        } catch let error as NSError {
+                            fatalError("Unresolved error \(error), \(error.userInfo)")
+                        }
+                        
+                    }
+                }
+                
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
     }
     
-    func addPost() {
+    func favoritePost(id: NSManagedObjectID) {
         do {
-            let post = CDPosts(context: context)
-            post.idPost = 3
-            post.idUser = 5
-            post.title = "asdasdsd"
+            guard let post = try context.existingObject(with: id) as? CDPosts else { return }
+            post.star = !post.star
             try post.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        } catch let error as NSError {
+            fatalError("Unresolved error \(error), \(error.userInfo)")
         }
     }
     
@@ -97,31 +115,6 @@ extension PostListViewModel: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let corePosts = controller.fetchedObjects as? [CDPosts] else { return }
         self.postsCahed = corePosts.map{ PostCacheViewModel(post: $0) }
-    }
-}
-
-struct PostViewModel: Identifiable {
-    let id = UUID()
-    private let post: Post
-    
-    var idPost: Int {
-        return post.id
-    }
-    
-    var star: Bool {
-        return Bool.random()
-    }
-    
-    var title: String {
-        return post.title
-    }
-    
-    var description: String {
-        return post.body
-    }
-    
-    init(post: Post) {
-        self.post = post
     }
 }
 
