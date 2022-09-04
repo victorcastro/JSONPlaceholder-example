@@ -52,6 +52,7 @@ class PostListViewModel: NSObject, ObservableObject {
     }
     
     func fetchPosts() {
+        deleteAllPosts()
         apiManager.getPosts { (result: Result<[Post], Error>) in
             switch result {
             case .success(let res):

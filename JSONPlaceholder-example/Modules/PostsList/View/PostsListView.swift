@@ -38,6 +38,12 @@ struct PostsListView: View {
                         VStack {
                             Image(systemName: SFSymbols.gearshape2fill).font(.system(size: 30)).foregroundColor(.gray)
                             Text("there aren't posts").font(.caption).padding(.top, 10)
+                            Button {
+                                vm.fetchPosts()
+                            } label: {
+                                Text("Do you want to download data from API ?").font(.caption2).foregroundColor(.blue).padding(.top, 5)
+                            }
+
                         }
                     } else {
                         List {
@@ -69,7 +75,7 @@ struct PostsListView: View {
                 }
                 
             }
-            .navigationTitle("Posts")
+            .navigationTitle("Posts \(vm.postsCahed.count > 0 ? "(" + String(vm.postsCahed.count) + ")" : "" )")
             .navigationBarTitleDisplayMode(.automatic)
             .padding()
             .toolbar {
