@@ -22,7 +22,6 @@ class ServiceManager {
             pathRaw = path.rawValue
         }
 
-        print(pathRaw)
         guard let url = URL(string: ApiContants.url + pathRaw) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue

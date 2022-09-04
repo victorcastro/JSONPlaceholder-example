@@ -7,12 +7,12 @@
 
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
-
+struct CoreDataManager {
+    
     let container: NSPersistentContainer
+    static let shared = CoreDataManager()
 
-    init(inMemory: Bool = false) {
+    private init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "JSONPlaceholder_example")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")

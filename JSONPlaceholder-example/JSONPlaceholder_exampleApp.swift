@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct JSONPlaceholder_exampleApp: App {
-    let persistenceController = PersistenceController.shared
+    
 
     var body: some Scene {
         WindowGroup {
-            PostsListView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            let viewContext = CoreDataManager.shared.container.viewContext
+            PostsListView(vm: PostListViewModel(context: viewContext))
+                .environment(\.managedObjectContext, viewContext)
         }
     }
 }

@@ -13,4 +13,5 @@ struct SFSymbols {
     static let load = "arrow.clockwise"
     static let starFill = "star.fill"
     static let icloudDown = "icloud.and.arrow.down"
+    static let gearshape2fill = "gearshape.2.fill"
 }

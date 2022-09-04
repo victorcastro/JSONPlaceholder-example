@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4014E8328C410A300D2CA51 /* BaseModel + CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4014E8228C410A300D2CA51 /* BaseModel + CoreData.swift */; };
+		E4014E8628C41A8E00D2CA51 /* Posts + BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4014E8528C41A8E00D2CA51 /* Posts + BaseModel.swift */; };
 		E4A8D96D28C25D200091601D /* JSONPlaceholder_exampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D96C28C25D200091601D /* JSONPlaceholder_exampleApp.swift */; };
 		E4A8D96F28C25D200091601D /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D96E28C25D200091601D /* PostsListView.swift */; };
 		E4A8D97128C25D240091601D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A8D97028C25D240091601D /* Assets.xcassets */; };
 		E4A8D97428C25D240091601D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A8D97328C25D240091601D /* Preview Assets.xcassets */; };
-		E4A8D97628C25D250091601D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D97528C25D250091601D /* Persistence.swift */; };
+		E4A8D97628C25D250091601D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D97528C25D250091601D /* CoreDataManager.swift */; };
 		E4A8D97928C25D250091601D /* JSONPlaceholder_example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D97728C25D250091601D /* JSONPlaceholder_example.xcdatamodeld */; };
 		E4A8D98328C25D250091601D /* JSONPlaceholder_exampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D98228C25D250091601D /* JSONPlaceholder_exampleTests.swift */; };
 		E4A8D98D28C25D250091601D /* JSONPlaceholder_exampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D98C28C25D250091601D /* JSONPlaceholder_exampleUITests.swift */; };
@@ -46,12 +48,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E4014E8228C410A300D2CA51 /* BaseModel + CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseModel + CoreData.swift"; sourceTree = "<group>"; };
+		E4014E8528C41A8E00D2CA51 /* Posts + BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Posts + BaseModel.swift"; sourceTree = "<group>"; };
 		E4A8D96928C25D200091601D /* JSONPlaceholder-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JSONPlaceholder-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A8D96C28C25D200091601D /* JSONPlaceholder_exampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPlaceholder_exampleApp.swift; sourceTree = "<group>"; };
 		E4A8D96E28C25D200091601D /* PostsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
 		E4A8D97028C25D240091601D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4A8D97328C25D240091601D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E4A8D97528C25D250091601D /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		E4A8D97528C25D250091601D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E4A8D97828C25D250091601D /* JSONPlaceholder_example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JSONPlaceholder_example.xcdatamodel; sourceTree = "<group>"; };
 		E4A8D97E28C25D250091601D /* JSONPlaceholder-exampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JSONPlaceholder-exampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A8D98228C25D250091601D /* JSONPlaceholder_exampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPlaceholder_exampleTests.swift; sourceTree = "<group>"; };
@@ -96,6 +100,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E4014E8128C4108300D2CA51 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E4014E8228C410A300D2CA51 /* BaseModel + CoreData.swift */,
+				E4014E8528C41A8E00D2CA51 /* Posts + BaseModel.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E4014E8428C417C400D2CA51 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E4A8D9AB28C2BB520091601D /* ServiceManager.swift */,
+				E4A8D9AD28C2D20F0091601D /* ApiManager.swift */,
+				E4A8D97528C25D250091601D /* CoreDataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		E4A8D96028C25D1F0091601D = {
 			isa = PBXGroup;
 			children = (
@@ -119,15 +142,13 @@
 		E4A8D96B28C25D200091601D /* JSONPlaceholder-example */ = {
 			isa = PBXGroup;
 			children = (
-				E4A8D9A728C2BA610091601D /* Helpers */,
-				E4A8D99E28C2AAF20091601D /* Modules */,
 				E4A8D99B28C25ECB0091601D /* Info.plist */,
 				E4A8D96C28C25D200091601D /* JSONPlaceholder_exampleApp.swift */,
 				E4A8D97028C25D240091601D /* Assets.xcassets */,
-				E4A8D97528C25D250091601D /* Persistence.swift */,
-				E4A8D97728C25D250091601D /* JSONPlaceholder_example.xcdatamodeld */,
+				E4D0255E28C42D5D0071DBFA /* CoreData */,
+				E4A8D9A728C2BA610091601D /* Helpers */,
+				E4A8D99E28C2AAF20091601D /* Modules */,
 				E4A8D97228C25D240091601D /* Preview Content */,
-				E4A8D99C28C293CC0091601D /* LaunchScreen.storyboard */,
 			);
 			path = "JSONPlaceholder-example";
 			sourceTree = "<group>";
@@ -203,9 +224,10 @@
 		E4A8D9A728C2BA610091601D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E4A8D99C28C293CC0091601D /* LaunchScreen.storyboard */,
 				E4A8D9A828C2BA660091601D /* Contants */,
-				E4A8D9AB28C2BB520091601D /* ServiceManager.swift */,
-				E4A8D9AD28C2D20F0091601D /* ApiManager.swift */,
+				E4014E8128C4108300D2CA51 /* Extensions */,
+				E4014E8428C417C400D2CA51 /* Managers */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,6 +273,14 @@
 				E4A8D9B728C2F6480091601D /* PostDetailViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4D0255E28C42D5D0071DBFA /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E4A8D97728C25D250091601D /* JSONPlaceholder_example.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,12 +415,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4A8D9B628C2F0770091601D /* PostDetailView.swift in Sources */,
+				E4014E8328C410A300D2CA51 /* BaseModel + CoreData.swift in Sources */,
 				E4A8D9AC28C2BB520091601D /* ServiceManager.swift in Sources */,
 				E4A8D97928C25D250091601D /* JSONPlaceholder_example.xcdatamodeld in Sources */,
 				E4A8D9B028C2EA480091601D /* SFSymbols.swift in Sources */,
 				E4A8D9A628C2BA2B0091601D /* Post.swift in Sources */,
+				E4014E8628C41A8E00D2CA51 /* Posts + BaseModel.swift in Sources */,
 				E4A8D9B828C2F6480091601D /* PostDetailViewModel.swift in Sources */,
-				E4A8D97628C25D250091601D /* Persistence.swift in Sources */,
+				E4A8D97628C25D250091601D /* CoreDataManager.swift in Sources */,
 				E4A8D9AA28C2BA760091601D /* GlobalContants.swift in Sources */,
 				E4A8D9BA28C2F7400091601D /* Comment.swift in Sources */,
 				E4A8D9AE28C2D20F0091601D /* ApiManager.swift in Sources */,
@@ -483,7 +515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -537,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -573,7 +605,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -603,7 +635,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -9,28 +9,41 @@ import SwiftUI
 import CoreData
 
 struct PostsListView: View {
+    
     @Environment(\.managedObjectContext) private var viewContext
     
-    @StateObject var postListVM = PostListViewModel()
+    @ObservedObject private var vm: PostListViewModel
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
+    init(vm: PostListViewModel) {
+        self.vm = vm
+        UITableView.appearance().backgroundColor = .clear
+    }
     
-    private var items: FetchedResults<Item>
-    
+    private func deletePostIndex(at offsets: IndexSet) {
+        withAnimation {
+            offsets.forEach { index in
+                let post = vm.postsCahed[index]
+                if (!post.star) {
+                    vm.deletePost(id: post.id)
+                }
+            }
+        }
+    }
     
     var body: some View {
         NavigationView {
-            ZStack {
-                if (postListVM.posts.isEmpty) {
-                    ProgressView()
-                } else {
-                    VStack {
+            VStack {
+                ZStack {
+                    if (vm.postsCahed.isEmpty) {
+                        VStack {
+                            Image(systemName: SFSymbols.gearshape2fill).font(.system(size: 30)).foregroundColor(.gray)
+                            Text("there aren't posts").font(.caption).padding(.top, 10)
+                        }
+                    } else {
                         List {
-                            ForEach(postListVM.posts, id: \.id) { post in
+                            ForEach(vm.postsCahed) { post in
                                 NavigationLink {
-                                    PostDetailView(id: post.idPost)
+                                    PostDetailView(id: Int(post.idPost))
                                 } label: {
                                     HStack {
                                         if (post.star) {
@@ -42,88 +55,51 @@ struct PostsListView: View {
                                     }
                                 }
                             }
-                            .onDelete(perform: deletePost)
-                        }.listStyle(.grouped)
-                        
-                        Button(action: {
-                            deleteAllPosts()
-                        }) {
-                            Text("Delete all").foregroundColor(.red).padding(.top)
+                            .onDelete(perform: deletePostIndex)
+                            
                         }
-                        
-                    }.padding()
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(action: {
-                                    postListVM.fetchPosts()
-                                }) {
-                                    Label("Download", systemImage: SFSymbols.icloudDown)
-                                }
-                            }
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                EditButton()
-                            }
-                        }
+                        .listStyle(.grouped)
+                    }
                 }
-            }.navigationTitle("Posts")
-                .navigationBarTitleDisplayMode(.automatic)
-        }
-        .onAppear{
-            postListVM.fetchPosts()
-        }
-    }
-    
-    
-    private func addPost() {
-        withAnimation {
-            let post = Item(context: viewContext)
-            post.timestamp = Date()
-            
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                Spacer()
+                Button(action: {
+                    vm.deleteAllPosts()
+                }) {
+                    Text("Delete all").foregroundColor(.red).padding(.top)
+                }
+                
             }
-        }
-    }
-    
-    private func deletePost(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-            
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-    
-    private func deleteAllPosts() {
-        withAnimation {
-            items.forEach(viewContext.delete)
-            
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            .navigationTitle("Posts")
+            .navigationBarTitleDisplayMode(.automatic)
+            .padding()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        vm.getPostsFromService()
+                    }) {
+                        Label("Download", systemImage: SFSymbols.icloudDown)
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) { !vm.postsCahed.isEmpty ? EditButton() : nil }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        withAnimation {
+                            vm.addPost()
+                        }
+                    }) {
+                        Label("Add", systemImage: SFSymbols.plus)
+                    }
+                }
             }
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PostsListView()
+        let viewContext = CoreDataManager.shared.container.viewContext
+        PostsListView(vm: PostListViewModel(context: viewContext))
     }
 }
