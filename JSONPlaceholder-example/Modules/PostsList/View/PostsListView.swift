@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct PostsListView: View {
     
@@ -49,7 +48,7 @@ struct PostsListView: View {
                         List {
                             ForEach(vm.postsCahed) { post in
                                 NavigationLink {
-                                    PostDetailView(id: Int(post.idPost))
+                                    PostDetailView(post: post, vm: PostDetailViewModel(context: viewContext))
                                 } label: {
                                     HStack {
                                         if (post.star) {

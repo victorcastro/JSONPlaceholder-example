@@ -29,6 +29,8 @@ class PostListViewModel: NSObject, ObservableObject {
         getPostFromPersistence()
     }
     
+    // MARK:- Handling data
+    
     func getPostsFromService() {
         apiManager.getPosts { (result: Result<[Post], Error>) in
             switch result {
@@ -78,6 +80,8 @@ class PostListViewModel: NSObject, ObservableObject {
         }
     }
     
+    // MARK: - Actions to CoreData
+    
     func favoritePost(id: NSManagedObjectID) {
         do {
             guard let post = try context.existingObject(with: id) as? CDPosts else { return }
@@ -108,7 +112,6 @@ class PostListViewModel: NSObject, ObservableObject {
         } catch let error as NSError {
             fatalError("Unresolved error \(error), \(error.userInfo)")
         }
-        
     }
 }
 

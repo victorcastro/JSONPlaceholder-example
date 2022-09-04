@@ -6,17 +6,26 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct PostDetailView: View {
-    let id: Int
+    let post: PostCacheViewModel
     
-    @StateObject var postDetailVM = PostDetailViewModel()
+    @ObservedObject private var vm: PostDetailViewModel
     
     @State var isFavorite = false
+    
+    init(post: PostCacheViewModel, vm: PostDetailViewModel) {
+        self.post = post
+        self.vm = vm
+    }
     
     var body: some View {
         VStack {
             Text("Description").font(.title2)
+            Text(post.description)
+            Text("User")
+            Text("Comments")
         }.toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -29,7 +38,7 @@ struct PostDetailView: View {
         }.navigationTitle("Post")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear{
-                postDetailVM.getPost(id: 1)
+                vm.getPost(id: post.idPost)
             }
     }
     
@@ -40,6 +49,11 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(id: 0)
+        let viewContext = CoreDataManager.shared.container.viewContext
+        
+        let p = CDPosts(context: viewContext)
+        let postCached = PostCacheViewModel(post: p)
+        
+        PostDetailView(post: postCached, vm: PostDetailViewModel(context: viewContext))
     }
 }

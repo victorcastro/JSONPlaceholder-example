@@ -6,13 +6,18 @@
 //
 
 import Foundation
-import Combine
+import CoreData
 
-class PostDetailViewModel: ObservableObject {
+class PostDetailViewModel: NSObject, ObservableObject {
     
-    // @Published var post = Post()
+    private (set) var context: NSManagedObjectContext
     
     private let apiManager = ApiManager()
+    
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        super.init()
+    }
     
     func getPost(id: Int) {
         apiManager.getPost(id: String(id)) { (result: Result<Post, Error>) in
@@ -24,6 +29,18 @@ class PostDetailViewModel: ObservableObject {
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    // MARK: - Actions to CoreData
+    
+    func favoritePost(id: NSManagedObjectID) {
+        do {
+            guard let post = try context.existingObject(with: id) as? CDPosts else { return }
+            post.star = !post.star
+            try post.save()
+        } catch let error as NSError {
+            fatalError("Unresolved error \(error), \(error.userInfo)")
         }
     }
 }
