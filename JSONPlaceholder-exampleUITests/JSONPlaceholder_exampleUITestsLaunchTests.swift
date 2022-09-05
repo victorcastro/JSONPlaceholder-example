@@ -22,7 +22,7 @@ class JSONPlaceholder_exampleUITestsLaunchTests: XCTestCase {
         app.launch()
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "Launch Screen"
+        attachment.name = "LaunchScreen"
         attachment.lifetime = .keepAlways
         add(attachment)
     }

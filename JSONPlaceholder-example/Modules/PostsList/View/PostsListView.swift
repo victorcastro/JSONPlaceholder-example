@@ -77,22 +77,24 @@ struct PostsListView: View {
                                             Label("Subtract ", systemImage: "minus.circle")
                                         }
                                         .tint(.red)
-                                        
-                                    }
+                                    }.accessibility(identifier: "idPost")
                                 }
                             }.listStyle(.grouped)
+                                .accessibility(identifier: "idPostsList")
                         }
                     }
                 }
                 Spacer()
-                Button(action: {
-                    showingAlert = true
-                }) {
-                    Text("Delete all").foregroundColor(.red).padding(.top)
-                }.alert("Do you want to delete all?", isPresented: $showingAlert) {
-                    Button("Yes, delete all") { vm.deleteAllPosts() }
-                    Button("Keep favorites") { vm.deleteAllPosts(keepFavorites: true) }
-                    Button("Cancel", role: .cancel) { }
+                if (!vm.postsCahed.isEmpty) {
+                    Button(action: {
+                        showingAlert = true
+                    }) {
+                        Text("Delete all").foregroundColor(.red).padding(.top)
+                    }.alert("Do you want to delete all?", isPresented: $showingAlert) {
+                        Button("Yes, delete all") { vm.deleteAllPosts() }
+                        Button("Keep favorites") { vm.deleteAllPosts(keepFavorites: true) }
+                        Button("Cancel", role: .cancel) { }
+                    }.accessibility(identifier: "idDeleteAll")
                 }
                 
             }
@@ -105,7 +107,7 @@ struct PostsListView: View {
                         vm.fetchPosts()
                     }) {
                         Label("Download", systemImage: SFSymbols.icloudDown)
-                    }
+                    }.accessibility(identifier: "idDownloadPostFromApi")
                 }
             }
         }

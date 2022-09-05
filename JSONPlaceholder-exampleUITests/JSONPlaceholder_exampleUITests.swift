@@ -9,24 +9,49 @@ import XCTest
 
 class JSONPlaceholder_exampleUITests: XCTestCase {
 
+    var app: XCUIApplication!
+    
+    override func setUp() {
+        app = XCUIApplication()
+        app.launch()
+    }
+    
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
 
-    override func tearDownWithError() throws {
+    func tests_should_download_post_from_api() throws {
 
+        let downloadButton = app.buttons["idDownloadPostFromApi"]
+        downloadButton.tap()
+        
+        let deleteAllButton = app.buttons["idDeleteAll"]
+        XCTAssert(deleteAllButton.waitForExistence(timeout: 0.5))
+    }
+    
+    func tests_should_remove_one_post() throws {
+        let postRows = app.tables["idPostsList"].cells
+        let row = Int.random(in: 0..<5)
+        let currentPosts = postRows.count
+        postRows.element(boundBy: row).swipeLeft()
+        postRows.element(boundBy: row).swipeLeft()
+
+        XCTAssertTrue(currentPosts - postRows.count == 1)
+    }
+    
+    func tests_should_add_favorite_post() throws {
+        let postRows = app.tables["idPostsList"].cells
+        let row = Int.random(in: 0..<5)
+        postRows.element(boundBy: row).swipeRight()
+        postRows.element(boundBy: row).swipeRight()
     }
 
-    func testExample() throws {
-        let app = XCUIApplication()
-        app.launch()
-    }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    func tests_should_open_details_of_post() throws {
+        let postRow = app.buttons["idPost"]
+        postRow.firstMatch.tap()
+        
+        let content = app.staticTexts["Description"]
+        
+        XCTAssert(content.waitForExistence(timeout: 0.5))
     }
 }
