@@ -13,29 +13,14 @@ struct PostsListView: View {
     
     @ObservedObject private var vm: PostListViewModel
     
-    
-    
-    var colors = ["All", "Favorites"]
     @State private var selectedColor = "All"
-    
-    
-    
+    @State private var showingAlert = false
+    @State private var showingAlertFavorite = false
     
     
     init(vm: PostListViewModel) {
         self.vm = vm
         UITableView.appearance().backgroundColor = .clear
-    }
-    
-    private func deletePostIndex(at offsets: IndexSet) {
-        withAnimation {
-            offsets.forEach { index in
-                let post = vm.postsCahed[index]
-                if (!post.star) {
-                    vm.deletePost(id: post.id)
-                }
-            }
-        }
     }
     
     var body: some View {
@@ -57,7 +42,7 @@ struct PostsListView: View {
                     } else {
                         VStack {
                             Picker("choose a type section", selection: $selectedColor) {
-                                ForEach(colors, id: \.self) {
+                                ForEach(["All", "Favorites"], id: \.self) {
                                     Text($0)
                                 }
                             }.pickerStyle(SegmentedPickerStyle())
@@ -74,20 +59,40 @@ struct PostsListView: View {
                                                 .font(.system(size: 14))
                                                 .padding(.vertical, 10)
                                         }
+                                    }.swipeActions(edge: .leading) {
+                                        Button {
+                                            vm.favoritePost(id: post.id)
+                                        } label: {
+                                            Label("Subtract ", systemImage: SFSymbols.star)
+                                        }.tint(.yellow)
+                                    }
+                                    .swipeActions(edge: .trailing) {
+                                        Button {
+                                            withAnimation {
+                                                if (!post.star) {
+                                                    vm.deletePost(id: post.id)
+                                                }
+                                            }
+                                        } label: {
+                                            Label("Subtract ", systemImage: "minus.circle")
+                                        }
+                                        .tint(.red)
+                                        
                                     }
                                 }
-                                .onDelete(perform: deletePostIndex)
-                                
                             }.listStyle(.grouped)
-                            
                         }
                     }
                 }
                 Spacer()
                 Button(action: {
-                    vm.deleteAllPosts()
+                    showingAlert = true
                 }) {
                     Text("Delete all").foregroundColor(.red).padding(.top)
+                }.alert("Do you want to delete all?", isPresented: $showingAlert) {
+                    Button("Yes, delete all") { vm.deleteAllPosts() }
+                    Button("Keep favorites") { vm.deleteAllPosts(keepFavorites: true) }
+                    Button("Cancel", role: .cancel) { }
                 }
                 
             }
@@ -102,8 +107,6 @@ struct PostsListView: View {
                         Label("Download", systemImage: SFSymbols.icloudDown)
                     }
                 }
-                
-                ToolbarItem(placement: .navigationBarTrailing) { !vm.postsCahed.isEmpty ? EditButton() : nil }
             }
         }
     }

@@ -101,9 +101,12 @@ class PostListViewModel: NSObject, ObservableObject {
         }
     }
     
-    func deleteAllPosts() {
+    func deleteAllPosts(keepFavorites: Bool = false) {
         guard let corePosts = fetchedResultsController.fetchedObjects else { return }
-        for post in corePosts {
+        
+        let postToDelete = keepFavorites ? corePosts.filter { !$0.star } : corePosts
+        
+        for post in postToDelete {
             context.delete(post)
         }
         
