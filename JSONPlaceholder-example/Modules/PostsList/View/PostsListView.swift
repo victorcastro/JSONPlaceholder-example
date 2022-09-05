@@ -13,6 +13,15 @@ struct PostsListView: View {
     
     @ObservedObject private var vm: PostListViewModel
     
+    
+    
+    var colors = ["All", "Favorites"]
+    @State private var selectedColor = "All"
+    
+    
+    
+    
+    
     init(vm: PostListViewModel) {
         self.vm = vm
         UITableView.appearance().backgroundColor = .clear
@@ -30,6 +39,8 @@ struct PostsListView: View {
     }
     
     var body: some View {
+        let postToList = selectedColor == "Favorites" ? vm.postsCahed.filter{ $0.star } : vm.postsCahed
+        
         NavigationView {
             VStack {
                 ZStack {
@@ -42,28 +53,34 @@ struct PostsListView: View {
                             } label: {
                                 Text("Do you want to download data from API ?").font(.caption2).foregroundColor(.blue).padding(.top, 5)
                             }
-
                         }
                     } else {
-                        List {
-                            ForEach(vm.postsCahed) { post in
-                                NavigationLink {
-                                    PostDetailView(post: post, vm: PostDetailViewModel(post: post, context: viewContext))
-                                } label: {
-                                    HStack {
-                                        if (post.star) {
-                                            Image(systemName: SFSymbols.starFill).foregroundColor(.yellow)
+                        VStack {
+                            Picker("choose a type section", selection: $selectedColor) {
+                                ForEach(colors, id: \.self) {
+                                    Text($0)
+                                }
+                            }.pickerStyle(SegmentedPickerStyle())
+                            List {
+                                ForEach(postToList) { post in
+                                    NavigationLink {
+                                        PostDetailView(post: post, vm: PostDetailViewModel(post: post, context: viewContext))
+                                    } label: {
+                                        HStack {
+                                            if (post.star) {
+                                                Image(systemName: SFSymbols.starFill).foregroundColor(.yellow)
+                                            }
+                                            Text(post.title)
+                                                .font(.system(size: 14))
+                                                .padding(.vertical, 10)
                                         }
-                                        Text(post.title)
-                                            .font(.system(size: 14))
-                                            .padding(.vertical, 10)
                                     }
                                 }
-                            }
-                            .onDelete(perform: deletePostIndex)
+                                .onDelete(perform: deletePostIndex)
+                                
+                            }.listStyle(.grouped)
                             
                         }
-                        .listStyle(.grouped)
                     }
                 }
                 Spacer()
