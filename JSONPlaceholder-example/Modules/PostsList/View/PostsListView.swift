@@ -48,7 +48,7 @@ struct PostsListView: View {
                         List {
                             ForEach(vm.postsCahed) { post in
                                 NavigationLink {
-                                    PostDetailView(post: post, vm: PostDetailViewModel(context: viewContext))
+                                    PostDetailView(post: post, vm: PostDetailViewModel(post: post, context: viewContext))
                                 } label: {
                                     HStack {
                                         if (post.star) {

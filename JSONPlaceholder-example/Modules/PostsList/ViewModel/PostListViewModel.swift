@@ -29,7 +29,7 @@ class PostListViewModel: NSObject, ObservableObject {
         getPostFromPersistence()
     }
     
-    // MARK:- Handling data
+    // MARK: - Handling data
     
     func getPostsFromService() {
         apiManager.getPosts { (result: Result<[Post], Error>) in
