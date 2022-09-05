@@ -32,6 +32,28 @@ class ApiManager {
             }
         }
     }
+    
+    func getCommentsOfPost(id: String, completion: @escaping (Result<[Comment], Error>) -> Void) {
+        service.callService(method: .get, path: .commentsOfPost, pathId: id) { (result: Result<[Comment], Error>) in
+            switch result {
+            case .success(let result):
+                completion(.success(result))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getAuthor(id: String, completion: @escaping (Result<Author, Error>) -> Void) {
+        service.callService(method: .get, path: .user, pathId: id) { (result: Result<Author, Error>) in
+            switch result {
+            case .success(let result):
+                completion(.success(result))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }
 
 

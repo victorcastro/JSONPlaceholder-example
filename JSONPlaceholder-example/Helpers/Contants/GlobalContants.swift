@@ -26,5 +26,5 @@ enum ApiPath: String {
     case users = "/users"
     case comment = "/comments/{ID}"
     case comments = "/comments"
-    case commentOfPost = "/posts/{ID}/comments"
+    case commentsOfPost = "/posts/{ID}/comments"
 }

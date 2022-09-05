@@ -21,29 +21,48 @@ struct PostDetailView: View {
     }
     
     var body: some View {
-        VStack {
-            Text("Description").font(.title2)
-            Text(post.description)
-            Text("User")
-            Text("Comments")
+        VStack(alignment: .leading) {
+            Text("Description").font(.title2).padding(.bottom, 5)
+            Text(post.description).font(.callout).padding(.bottom)
+            
+            Text("User").font(.title2).padding(.bottom, 5)
+            VStack(alignment: .leading) {
+                Text("Name: " + (vm.author?.name ?? ""))
+                Text("Email: " + (vm.author?.email ?? ""))
+                Text("Phone: " + (vm.author?.phone ?? ""))
+                Text("Website: " + (vm.author?.website ?? ""))
+            }.padding(.bottom)
+            
+            Text("Comments").font(.title2).padding(.bottom, 5)
+            List {
+                ForEach(vm.comments, id: \.id) { comment in
+                    VStack(alignment: .leading) {
+                        Text(comment.name).font(.callout)
+                        Text(comment.body).font(.caption2)
+                    }.padding(.vertical)
+                }.listRowInsets(EdgeInsets())
+            }
         }.toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     tapFavorite()
                 }) {
-                    Label("Star", systemImage: isFavorite ? SFSymbols.starFill : SFSymbols.star)
+                    Label("Star", systemImage: post.star ? SFSymbols.starFill : SFSymbols.star)
                         .foregroundColor(.yellow)
                 }
             }
         }.navigationTitle("Post")
+            .padding()
             .navigationBarTitleDisplayMode(.inline)
             .onAppear{
-                vm.getPost(id: post.idPost)
+                vm.getComments(id: post.idPost)
+                vm.getAuthor(id: post.idUser)
             }
     }
     
     private func tapFavorite() {
         isFavorite.toggle()
+        vm.favoritePost(id: post.id)
     }
 }
 

@@ -14,17 +14,31 @@ class PostDetailViewModel: NSObject, ObservableObject {
     
     private let apiManager = ApiManager()
     
+    @Published var comments: [Comment] = []
+    @Published var author: Author?
+        
     init(context: NSManagedObjectContext) {
         self.context = context
         super.init()
     }
     
-    func getPost(id: Int) {
-        apiManager.getPost(id: String(id)) { (result: Result<Post, Error>) in
+    func getComments(id: Int) {
+        apiManager.getCommentsOfPost(id: String(id)) { (result: Result<[Comment], Error>) in
             switch result {
             case .success(let res):
-                // self.post = res
-                print(res)
+                self.comments = res
+                
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func getAuthor(id: Int) {
+        apiManager.getAuthor(id: String(id)) { (result: Result<Author, Error>) in
+            switch result {
+            case .success(let res):
+                self.author = res
                 
             case .failure(let err):
                 print(err.localizedDescription)
@@ -44,3 +58,4 @@ class PostDetailViewModel: NSObject, ObservableObject {
         }
     }
 }
+
