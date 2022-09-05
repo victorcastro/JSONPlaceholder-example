@@ -1,3 +1,7 @@
+
+![Home](.github-content/1-home.png)
+
+
 JSON Placeholder is and beautiful and dynamic example app, this application was made independently and published on github as a guide for other iOS Developers.  It was created a "Helpers" 💼 folder to organize the constants, handlers and extensions.
 
 ### Tech specs:
